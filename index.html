@@ -2,9 +2,26 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Registro Gastronómico | Tu Plataforma</title>
+    
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!1;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'TU_ID_DE_PIXEL'); /* REEMPLAZA ESTO CON TU ID REAL */
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=TU_ID_DE_PIXEL&ev=PageView&noscript=1"
+    /></noscript>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --primario: #2c3e50;
@@ -27,10 +44,10 @@
             background-color: var(--fondo);
             color: var(--texto);
             margin: 0;
-            padding: 40px 20px;
+            padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
         }
 
@@ -38,20 +55,23 @@
             background-color: var(--blanco);
             max-width: 550px;
             width: 100%;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            padding: 30px 20px;
+            box-sizing: border-box;
             text-align: center;
-            position: relative;
         }
 
-        /* Badge de Registro Sin Costo */
+        /* Responsive Container */
+        @media (min-width: 600px) {
+            body { padding: 40px 20px; align-items: center; }
+            .container { border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.08); padding: 40px; }
+        }
+
         .free-badge {
             background-color: #27ae60;
             color: white;
             padding: 8px 15px;
             border-radius: 50px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             display: inline-block;
             margin-bottom: 15px;
@@ -62,29 +82,28 @@
         }
 
         .logo {
-            max-width: 180px; /* Ajusta este ancho según prefieras */
+            max-width: 150px;
             height: auto;
-            margin-bottom: 20px;
+            margin: 0 auto 20px auto;
             display: block;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         h1 {
             font-family: 'Playfair Display', serif;
             color: var(--primario);
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             margin: 0 0 10px 0;
+            line-height: 1.2;
         }
 
         p.subtitle {
             color: #888;
             margin-bottom: 30px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             text-align: left;
         }
 
@@ -98,12 +117,14 @@
 
         input {
             width: 100%;
-            padding: 14px;
+            padding: 16px; 
             border: 1px solid #ddd;
-            border-radius: 10px;
+            border-radius: 12px;
             box-sizing: border-box;
             font-family: inherit;
+            font-size: 16px; /* Evita zoom en iOS */
             transition: all 0.3s;
+            -webkit-appearance: none;
         }
 
         input:focus {
@@ -114,7 +135,7 @@
 
         .radio-section {
             background: #fdfdfd;
-            padding: 20px;
+            padding: 15px;
             border-radius: 12px;
             border: 1px solid #eee;
             margin-bottom: 25px;
@@ -122,45 +143,60 @@
 
         .radio-group {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eee;
         }
 
-        .radio-group:last-child { margin-bottom: 0; }
+        .radio-group:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
-        .options {
-            display: flex;
-            gap: 15px;
+        @media (min-width: 400px) {
+            .radio-group { flex-direction: row; justify-content: space-between; align-items: center; }
         }
 
+        .options { display: flex; gap: 10px; }
+
+        /* Estilo táctil para radios */
         .options label {
+            flex: 1;
             font-weight: 400;
             cursor: pointer;
-            margin-bottom: 0;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
             display: flex;
             align-items: center;
-            gap: 5px;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .options input[type="radio"] { width: auto; margin-right: 5px; }
+
+        /* Flex para Provincia/Barrio */
+        .grid-mobile { display: flex; flex-direction: column; gap: 0; }
+        @media (min-width: 480px) {
+            .grid-mobile { flex-direction: row; gap: 15px; }
+            .grid-mobile .form-group { flex: 1; }
         }
 
         button {
             width: 100%;
             background-color: var(--acento);
             color: white;
-            padding: 16px;
+            padding: 18px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(230, 126, 34, 0.2);
         }
 
-        button:hover {
-            background-color: #d35400;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3);
-        }
+        button:active { transform: scale(0.98); }
 
         .success-msg {
             display: none;
@@ -213,12 +249,12 @@
             </div>
         </div>
 
-        <div style="display: flex; gap: 15px;">
-            <div class="form-group" style="flex: 1;">
+        <div class="grid-mobile">
+            <div class="form-group">
                 <label>Provincia *</label>
                 <input type="text" name="provincia" placeholder="Ej: Bs As" required>
             </div>
-            <div class="form-group" style="flex: 1;">
+            <div class="form-group">
                 <label>Barrio *</label>
                 <input type="text" name="barrio" placeholder="Ej: Palermo" required>
             </div>
@@ -260,6 +296,11 @@
 
         fetch(SCRIPT_URL, { method: 'POST', body: formData })
         .then(response => {
+            // Evento de Meta Pixel para registro completado
+            if(typeof fbq !== 'undefined') {
+                fbq('track', 'CompleteRegistration');
+            }
+
             btn.style.display = 'none';
             msg.style.display = 'block';
 
