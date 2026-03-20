@@ -14,11 +14,11 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', 'TU_ID_DE_PIXEL'); /* REEMPLAZA ESTO CON TU ID REAL */
+    fbq('init', '2071420823589653');
     fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=TU_ID_DE_PIXEL&ev=PageView&noscript=1"
+    src="https://www.facebook.com/tr?id=2071420823589653&ev=PageView&noscript=1"
     /></noscript>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
@@ -60,7 +60,6 @@
             text-align: center;
         }
 
-        /* Responsive Container */
         @media (min-width: 600px) {
             body { padding: 40px 20px; align-items: center; }
             .container { border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.08); padding: 40px; }
@@ -115,14 +114,14 @@
             color: var(--primario);
         }
 
-        input {
+        input[type="text"], input[type="email"], input[type="tel"] {
             width: 100%;
             padding: 16px; 
             border: 1px solid #ddd;
             border-radius: 12px;
             box-sizing: border-box;
             font-family: inherit;
-            font-size: 16px; /* Evita zoom en iOS */
+            font-size: 16px;
             transition: all 0.3s;
             -webkit-appearance: none;
         }
@@ -156,9 +155,9 @@
             .radio-group { flex-direction: row; justify-content: space-between; align-items: center; }
         }
 
-        .options { display: flex; gap: 10px; }
+        .options { display: flex; gap: 10px; flex: 1; max-width: 200px; }
 
-        /* Estilo táctil para radios */
+        /* Estilo para que la opción elegida sea visible */
         .options label {
             flex: 1;
             font-weight: 400;
@@ -171,11 +170,26 @@
             align-items: center;
             justify-content: center;
             font-size: 0.9rem;
+            transition: all 0.2s ease;
+            position: relative;
         }
 
-        .options input[type="radio"] { width: auto; margin-right: 5px; }
+        /* Ocultamos el circulito original para que el diseño sea más limpio */
+        .options input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
 
-        /* Flex para Provincia/Barrio */
+        /* Cuando el radio está seleccionado, cambiamos el fondo del label */
+        .options label:has(input:checked) {
+            background-color: var(--acento);
+            border-color: var(--acento);
+            color: white;
+            font-weight: 600;
+        }
+
         .grid-mobile { display: flex; flex-direction: column; gap: 0; }
         @media (min-width: 480px) {
             .grid-mobile { flex-direction: row; gap: 15px; }
@@ -296,7 +310,6 @@
 
         fetch(SCRIPT_URL, { method: 'POST', body: formData })
         .then(response => {
-            // Evento de Meta Pixel para registro completado
             if(typeof fbq !== 'undefined') {
                 fbq('track', 'CompleteRegistration');
             }
